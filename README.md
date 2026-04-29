@@ -163,8 +163,8 @@ Para facilitar o acompanhamento do processo, as etapas de identificação e exec
 
 | Etapa 1: Configuração do Ataque | Etapa 2: Resultados do Brute Force |
 |:---:|:---:|
-| <img src="imagens/web/passo4.1.jpg" width="400px"><br><sup>Definição de parâmetros e início do Medusa</sup> | <img src="imagens/web/passo4.2.jpg" width="400px"><br><sup>Identificação de múltiplas credenciais válidas</sup> |
+| <img src="imagens/web/passo4.1.png" width="400px"><br><sup>Definição de parâmetros e início do Medusa</sup> | <img src="imagens/web/passo4.2.png" width="400px"><br><sup>Identificação de múltiplas credenciais válidas</sup> |
 | **Etapa 3: Validação Manual** | **Etapa 4: Acesso Concedido** |
-| <img src="imagens/web/passo4.3.jpg" width="400px"><br><sup>Inserindo usuário e senha encontrados</sup> | <img src="imagens/web/passo4.4.jpg" width="400px"><br><sup>Painel administrativo logado com sucesso</sup> |
+| <img src="imagens/web/passo4.3.png" width="400px"><br><sup>Inserindo usuário e senha encontrados</sup> | <img src="imagens/web/passo4.4.png" width="400px"><br><sup>Painel administrativo logado com sucesso</sup> |
 
 </div>
