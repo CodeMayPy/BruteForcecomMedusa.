@@ -1,7 +1,7 @@
 🛡️ ***Projeto Prático de Auditoria: Brute Force com Medusa***
 
 <div style="text-align: center;">
-  <img src="imagens/Imagem1.png" alt="Missão Hacker Medusa" width="500px">
+  <img src="imagens/readme/Imagem1.png" alt="Missão Hacker Medusa" width="500px">
 </div>
 
 📝 Introdução
