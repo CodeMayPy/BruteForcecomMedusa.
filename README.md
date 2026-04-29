@@ -1,6 +1,8 @@
 🛡️ ***Projeto Prático de Auditoria: Brute Force com Medusa***
 
-
+<div style="text-align: center;">
+  <img src="imagens/Imagem1.png" alt="Missão Hacker Medusa" width="500px">
+</div>
 
 📝 Introdução
 
@@ -20,3 +22,20 @@ Através deste laboratório, foi possível evoluir no caminho do ***Hacking Éti
     Ferramenta de Auditoria: Medusa (Login Brute-force Attack Tool).
 
     Serviços Auditados: FTP, SMB e Formulários Web (DVWA).
+
+
+🚀 ***Metodologia***
+    Configuração de Rede: Uso de rede *Host-Only* para isolamento.
+
+    Enumeração: Identificação de serviços (Nmap).
+
+    Ataque: Execução de força bruta em serviços como FTP e SMB.
+
+    Análise: Documentação de resultados e vulnerabilidades encontradas.
+
+🔒 ***Medidas de Mitigação:***
+
+* Implementação de políticas de bloqueio de conta.
+* Uso de Autenticação de Dois Fatores (2FA).
+* Monitoramento com Fail2Ban.
+* Senha longa e forte com alteração a cada 2 meses, ou sempre que necessário.
