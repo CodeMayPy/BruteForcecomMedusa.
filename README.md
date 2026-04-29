@@ -11,6 +11,7 @@ Este projeto é um desafio prático desenvolvido durante o bootcamp de ***Cibers
 Através deste laboratório, foi possível evoluir no caminho do ***Hacking Ético***, identificando vulnerabilidades críticas e aplicando boas práticas de mitigação. Além da parte técnica, o projeto reforçou minha familiaridade com o terminal Linux e ferramentas de linha de comando, elementos essenciais na minha rotina profissional.
 
 
+
 🛠️ ***Tecnologias e Ferramentas Utilizadas:***
 
     Virtualização: Oracle VM VirtualBox.
@@ -24,6 +25,7 @@ Através deste laboratório, foi possível evoluir no caminho do ***Hacking Éti
     Serviços Auditados: FTP, SMB e Formulários Web (DVWA).
 
 
+
 🚀 ***Metodologia***
     Configuração de Rede: Uso de rede *Host-Only* para isolamento.
 
@@ -33,6 +35,8 @@ Através deste laboratório, foi possível evoluir no caminho do ***Hacking Éti
 
     Análise: Documentação de resultados e vulnerabilidades encontradas.
 
+
+
 🔒 ***Medidas de Mitigação:***
 
 * Implementação de políticas de bloqueio de conta.
@@ -40,9 +44,11 @@ Através deste laboratório, foi possível evoluir no caminho do ***Hacking Éti
 * Monitoramento com Fail2Ban.
 * Senha longa e forte com alteração a cada 2 meses, ou sempre que necessário.
 
+
 ---
 
-## 🕵️ Execução do Ataque: FTP Brute Force
+
+##  👊 Execução do Ataque: FTP Brute Force
 
 Nesta seção, documento a execução técnica do ataque de força bruta contra o serviço FTP.
 
@@ -113,4 +119,52 @@ ftp [ip_maquina_alvo]
 ```
 <div style="text-align: center;">
   <img src="imagens/ftp/passo7.png" alt="print login na maquina 2 com o kali" width="500px">
+</div>
+
+
+---
+
+## 💀 Execução do Ataque: Automação de Formulário Web (DVWA)
+
+Nesta etapa, simulei um ataque de força bruta contra uma aplicação web real (Damn Vulnerable Web App). O diferencial aqui é a necessidade de entender os campos do formulário para que a ferramenta saiba onde inserir as credenciais.
+
+### Passo 1: Acesso à Aplicação Alvo.
+Acessei a interface web do DVWA através do navegador para identificar o comportamento da página de autenticação. É importante que a sua vm tenha conecação com a internet.
+```Bash
+URL: http://[ip_da_maquina_alvo]/dvwa/login.php
+```
+<div style="text-align: center;">
+  <img src="imagens/web/passo1.png" alt="print pagina web" width="500px">
+</div>
+
+### Passo 2: Inspeção de Requisições HTTP.
+Utilizei as ferramentas de desenvolvedor do navegador (F12 > Network) para capturar a requisição POST. Esse passo é fundamental para identificar o nome dos campos de entrada (username e password) e a mensagem de erro retornada pelo servidor em caso de falha.
+
+<div style="text-align: center;">
+  <img src="imagens/web/passo2.png" alt="print pagina web" width="500px">
+</div>
+
+### Passo 3: Mapeamento de Parâmetros e Credenciais.
+Com os dados da rede, mapeei os campos do formulário. Reutilizei as wordlists de usuários e senhas criadas anteriormente para alimentar o motor de ataque do ***Medusa***.
+
+### Passo 4: Ataque de Força Bruta com Módulo HTTP
+Executei o ***Medusa*** utilizando o módulo http. Configurei a página de login, os campos identificados no Passo 2 e a "assinatura de erro" (Login failed) para que a ferramenta saiba distinguir um login mal sucedido de um sucesso.
+```Bash
+medusa -h [ip_maquina_alvo] -U users.txt -P pass.txt -M http \
+-m PAGE:'/dvwa/login.php' \
+-m FORM:'username=^USER^&password=^PASS^&Login=Login' \
+-m 'FAIL=Login failed' -t 6
+```
+📸 Galeria de Execução: Ataque Web (DVWA)
+
+Para facilitar o acompanhamento do processo, as etapas de identificação e execução estão organizadas abaixo:
+
+<div style=" test-align:center;">
+
+| Etapa 1: Acesso e Identificação | Etapa 2: Inspeção do Formulário (F12) |
+|:---:|:---:|
+| <img src="imagens/web/passo4.1.png" width="400px"><br><sup>Acesso à página de login</sup> | <img src="imagens/web/passo4.2.png" width="400px"><br><sup>Análise de parâmetros POST</sup> |
+| **Etapa 3: Preparação das Wordlists** | **Etapa 4: Execução e Sucesso** |
+| <img src="imagens/web/passo4.3.png" width="400px"><br><sup>Listas de usuários e senhas</sup> | <img src="imagens/web/passo4.4.png" width="400px"><br><sup>Resultado positivo no Medusa</sup> |
+
 </div>
