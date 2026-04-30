@@ -189,12 +189,12 @@ enum4linux -a [IP_ALVO] | tee enum4_output.txt
 
 | Etapa 1: Executar e gravar resultados | Etapa 2: abrir o arquivo para ver |
 |:---:|:---:|
-| <img src="imagens/password_spray/enum4linux1.png" width="400px"><br><sup>Comando que faz o trabalho pesado.</sup> | <img src="imagens/password_spray/enum4linux1.2.png" width="400px"><br><sup>Comando leitor dos arquivos</sup> |
+| <img src="imagens/password_spray/enum4linux1.png" width="400px"><br><sup>Comando que faz o trabalho pesado.</sup> | <img src="imagens/password_spray/enum4linux1.2.png" width="400px"><br><sup>Comando leitor dos arquivos.</sup> |
 
 </div>
 
 ### Passo 2: Preparação do Alvo (Wordlists).
-Com base nos dados coletados, criei as listas de usuários e a senha que será pulverizada(sprayed) na rede.
+Com base nos dados coletados, criei as listas de usuários e a senha que será pulverizada **(sprayed)** na rede.
 ``` Bash
 echo -e "user\nmsfadmin\nservice" > smb_users.txt
 echo -e 'msfadmin\npassword\n123456\nWelcome123' > senhas_spray.txt
@@ -225,16 +225,16 @@ smbclient -L //[IP_ALVO] -U msfadmin
 
 ### 🏁 Considerações Finais: 
 
-A realização deste projeto permitiu simular o ciclo de vida de ataques comuns que ocorrem diariamente em infraestruturas corporativas. Através do FTP Brute Force, do Web Form Attack e do SMB Password Spraying, foi possível observar como credenciais fracas e serviços mal configurados são portas de entrada fáceis para atacantes.
+A realização deste projeto permitiu simular o ciclo de vida de ataques comuns que ocorrem diariamente em infraestruturas corporativas. Através do ***FTP Brute Force, do Web Form Attack e do SMB Password Spraying,*** foi possível observar como credenciais fracas e serviços mal configurados são portas de entrada fáceis para atacantes.
+
 
 🧠 ***Principais Aprendizados:***
 
-    Furtividade vs. Velocidade: O Password Spraying é mais eficaz para evitar bloqueios do que o brute force comum.
+* Furtividade vs. Velocidade: O Password Spraying é mais eficaz para evitar bloqueios do que o brute force comum.
+* Importância da Enumeração: Sem a fase inicial de reconhecimento (Nmap/enum4linux), o ataque é ineficaz.
+* Segurança em Camadas: Mitigar um serviço não basta se outros protocolos (como SMB) utilizam as mesmas credenciais.
 
-    Importância da Enumeração: Sem a fase inicial de reconhecimento (Nmap/enum4linux), o ataque é ineficaz.
-
-    Segurança em Camadas: Mitigar um serviço não basta se outros protocolos (como SMB) utilizam as mesmas credenciais.
 
 ### ⚖️ Ética e Responsabilidade:
 
-**Este laboratório foi executado em um ambiente controlado e isolado (VirtualBox), com o único propósito de estudo e fortalecimento de defesas. O conhecimento técnico adquirido é uma ferramenta para construir sistemas mais resilientes e proteger dados sensíveis.**
+*Este laboratório foi executado em um ambiente controlado e isolado (VirtualBox), com o único propósito de estudo e fortalecimento de defesas. O conhecimento técnico adquirido é uma ferramenta para construir sistemas mais resilientes e proteger dados sensíveis.*
