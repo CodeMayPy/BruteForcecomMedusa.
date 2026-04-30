@@ -1,10 +1,15 @@
 🛡️ ***Projeto Prático de Auditoria: Brute Force com Medusa***
 
+
 <div style="text-align: center;">
   <img src="imagens/readme/Imagem1.png" alt="Missão Hacker Medusa" width="500px">
 </div>
 
-📝 Introdução
+![Kali Linux](https://img.shields.io/badge/Kali-Linux-blue?style=for-the-badge&logo=kali-linux)
+![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+
+
+### 📝 Introdução
 
 Este projeto é um desafio prático desenvolvido durante o bootcamp de ***Cibersegurança***, uma parceria entre a ***DIO*** e a ***Riachuelo***. O objetivo principal foi consolidar conhecimentos em Linux, redes e segurança ofensiva, simulando cenários reais de ataques de força bruta para entender como fortalecer as defesas de um sistema.
 
@@ -129,7 +134,7 @@ ftp [ip_maquina_alvo]
 Nesta etapa, simulei um ataque de força bruta contra uma aplicação web real (Damn Vulnerable Web App). O diferencial aqui é a necessidade de entender os campos do formulário para que a ferramenta saiba onde inserir as credenciais.
 
 ### Passo 1: Acesso à Aplicação Alvo.
-Acessei a interface web do DVWA através do navegador para identificar o comportamento da página de autenticação. É importante que a sua vm tenha conecação com a internet.
+Acessei a interface web do DVWA através do navegador para identificar o comportamento da página de autenticação. É importante que a sua vm tenha conexão com a internet.
 ```Bash
 URL: http://[ip_da_maquina_alvo]/dvwa/login.php
 ```
@@ -168,3 +173,68 @@ Para facilitar o acompanhamento do processo, as etapas de identificação e exec
 | <img src="imagens/web/passo4.3.png" width="400px"><br><sup>Inserindo usuário e senha encontrados</sup> | <img src="imagens/web/passo4.4.png" width="400px"><br><sup>Painel administrativo logado com sucesso</sup> |
 
 </div>
+
+---
+
+## 🥷 Execução do Ataque: Password Spraying em SMB
+
+Diferente do brute force tradicional, o ***Password Spraying*** é uma técnica ***"ninja"*** de ataque furtivo. Em vez de tentar milhares de senhas em um único usuário (o que bloquearia a conta rapidamente), testei uma única senha comum contra uma lista inteira de usuários.
+
+### Passo 1: Enumeração de Usuários e Serviços.
+Antes do ataque, precisei saber quem são os "moradores" do sistema. Utilizei o ***enum4linux*** para extrair informações do protocolo ***SMB*** e descobrir nomes de usuários válidos, otimizando o tempo do ataque.
+```Bash
+enum4linux -a [IP_ALVO] | tee enum4_output.txt
+```
+<div style="text-align: center;">
+
+| Etapa 1: Executar e gravar resultados | Etapa 2: abrir o arquivo para ver |
+|:---:|:---:|
+| <img src="imagens/password_spray/enum4linux1.png" width="400px"><br><sup>Comando que faz o trabalho pesado.</sup> | <img src="imagens/password_spray/enum4linux1.2.png" width="400px"><br><sup>Comando leitor dos arquivos</sup> |
+
+</div>
+
+### Passo 2: Preparação do Alvo (Wordlists).
+Com base nos dados coletados, criei as listas de usuários e a senha que será pulverizada(sprayed) na rede.
+``` Bash
+echo -e "user\nmsfadmin\nservice" > smb_users.txt
+echo -e 'msfadmin\npassword\n123456\nWelcome123' > senhas_spray.txt
+```
+<div style="text-align: center;">
+  <img src="imagens/password_spray/listas.png" alt="print pagina listas" width="500px">
+</div>
+
+### Passo 3: Ataque com Medusa (Módulo smbnt).
+Executei o ataque utilizando o módulo ***smbnt***. Configurei um tempo de espera entre as tentativas para manter o comportamento furtivo. #ComoUmNinja
+```Bash
+medusa -h [IP_ALVO] -U smb_users.txt -P senhas_spray.txt -M smbnt -t 2 -T 50
+```
+<div style="text-align: center;">
+  <img src="imagens/password_spray/medusa.png" alt="print teste medusa" width="500px">
+</div>
+
+### Passo 4: Validação do Acesso com smbclient.
+Para confirmar que as credenciais obtidas são válidas e ver os compartilhamentos disponíveis, utilizei o ***smbclient***.
+```Bash
+smbclient -L //[IP_ALVO] -U msfadmin
+```
+<div style="text-align: center;">
+  <img src="imagens/password_spray/smbclient.png" alt="print teste smbclient" width="500px">
+</div>
+
+---
+
+### 🏁 Considerações Finais: 
+
+A realização deste projeto permitiu simular o ciclo de vida de ataques comuns que ocorrem diariamente em infraestruturas corporativas. Através do FTP Brute Force, do Web Form Attack e do SMB Password Spraying, foi possível observar como credenciais fracas e serviços mal configurados são portas de entrada fáceis para atacantes.
+
+🧠 ***Principais Aprendizados:***
+
+    Furtividade vs. Velocidade: O Password Spraying é mais eficaz para evitar bloqueios do que o brute force comum.
+
+    Importância da Enumeração: Sem a fase inicial de reconhecimento (Nmap/enum4linux), o ataque é ineficaz.
+
+    Segurança em Camadas: Mitigar um serviço não basta se outros protocolos (como SMB) utilizam as mesmas credenciais.
+
+### ⚖️ Ética e Responsabilidade:
+
+**Este laboratório foi executado em um ambiente controlado e isolado (VirtualBox), com o único propósito de estudo e fortalecimento de defesas. O conhecimento técnico adquirido é uma ferramenta para construir sistemas mais resilientes e proteger dados sensíveis.**
